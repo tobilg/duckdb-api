@@ -29,4 +29,24 @@ If you want to activate basic auth for the API, set both the `USERNAME` and the 
 In case you want to use AWS S3, set the `AWS_REGION`, `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables with the appropriate values (you need to have set up the appropriate credentials beforehand in your AWS account).
 
 ### API Documentation
-The API documentation is available at the `/docs` endpoint.
+There are two endpoints available:
+
+- `POST /query`: Executes a SQL query and returns the result as a JSON object.
+- `POST /streaming-query`: Executes a SQL query and streams the Arrow data to the client.
+
+The request body of both endpoints is a JSON object with a `query` property, which contains the SQL query to execute.
+
+### Examples
+
+Simple query to the JSON endpoint
+```bash
+curl -X POST http://localhost:3000/query -H "Content-Type: application/json" -d '{"query": "SELECT 1;"}'
+```
+Streaming query from a remote Parquet file
+```bash
+curl --location 'localhost:3000/streaming-query' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "query": "SELECT * FROM '\''https://shell.duckdb.org/data/tpch/0_01/parquet/orders.parquet'\'' LIMIT 100"
+  }'
+```

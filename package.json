@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.5",
-    "@hono/zod-openapi": "^0.17.0",
     "bunyan": "^1.8.15",
     "duckdb": "^1.1.1",
     "hono": "^4.6.9",

@@ -6,7 +6,6 @@ import { basicAuth } from 'hono/basic-auth';
 import { logger } from 'hono/logger';
 import { prettyJSON } from 'hono/pretty-json';
 import { requestId } from 'hono/request-id';
-import { z } from '@hono/zod-openapi'
 import Logger from './lib/logger';
 import { initialize, query, streamingQuery } from './lib/dbUtils';
 
@@ -31,17 +30,6 @@ const { USERNAME, PASSWORD, PORT } = process.env;
 
 // Setup port
 const port = PORT ? parseInt(PORT) : 3000;
-
-// const RequestSchema = z.object({
-//   query: z
-//     .openapi({
-// 			requestBody: {
-// 				content: {
-// 					'application/json': { schema: z.object({ query: z.string() }) },
-// 				},
-// 			},
-//     }),
-// })
 
 // Store initialization
 let isInitialized = false;

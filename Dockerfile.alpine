@@ -1,0 +1,16 @@
+FROM node:20-alpine
+
+RUN apk update && apk add python3-dev gcc libffi-dev make g++
+
+USER node
+WORKDIR /home/node
+ 
+COPY package.json .
+COPY tsconfig.json .
+COPY src/ .
+RUN npm i
+ 
+ARG PORT
+EXPOSE ${PORT:-3000}
+ 
+CMD ["npm", "run", "serve"]

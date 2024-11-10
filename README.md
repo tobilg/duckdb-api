@@ -49,4 +49,5 @@ curl --location 'localhost:3000/streaming-query' \
   --data '{
     "query": "SELECT * FROM '\''https://shell.duckdb.org/data/tpch/0_01/parquet/orders.parquet'\'' LIMIT 100"
   }'
+  --output /tmp/result.arrow
 ```

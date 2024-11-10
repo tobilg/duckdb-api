@@ -19,7 +19,7 @@ on:
     #   - main
     # Sequence of patterns matched against refs/tags
     tags:
-      - v0.*
+      - 0.*
 
 jobs:
   push_to_registry:

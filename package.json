@@ -1,6 +1,6 @@
 {
   "name": "duckdb-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A DuckDB API",
   "type": "module",
   "scripts": {
@@ -12,17 +12,17 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@hono/node-server": "^1.13.5",
+    "@hono/node-server": "^1.13.8",
     "bunyan": "^1.8.15",
-    "duckdb": "^1.1.1",
-    "hono": "^4.6.9",
-    "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "duckdb": "^1.2.0",
+    "hono": "^4.7.4",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@types/bunyan": "^1.8.11",
-    "@types/node": "^22.9.0",
-    "nodemon": "^3.1.7"
+    "@types/node": "^22.13.10",
+    "nodemon": "^3.1.9"
   }
 }

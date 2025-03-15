@@ -11,7 +11,7 @@ docker build -t duckdb-api .
 To build and run the Docker container, use the following commands:
 
 ```bash
-docker run -p 3000:3000 tobilg/duckdb-api:0.1.0
+docker run -p 3000:3000 tobilg/duckdb-api:0.1.1
 ```
 
 ### Environment Variables

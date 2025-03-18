@@ -31,9 +31,6 @@ const { USERNAME, PASSWORD, PORT } = process.env;
 // Setup port
 const port = PORT ? parseInt(PORT) : 3000;
 
-// Store initialization
-let isInitialized = false;
-
 // Instantiate Hono
 const app = new Hono();
 
@@ -56,6 +53,31 @@ if (USERNAME && PASSWORD) {
 	api.use('/query', basicAuth({ username: USERNAME, password: PASSWORD }));
 }
 
+app.get('/schema', async (c) => {
+	// Setup logger
+	const requestLogger = apiLogger.child({ requestId: c.get('requestId') });
+
+	// Track query start timestamp
+	const queryStartTimestamp = new Date().getTime();
+
+	try {
+		// Run query
+		
+
+		// Track query end timestamp
+		const queryEndTimestamp = new Date().getTime();
+
+		requestLogger.debug({
+			queryStartTimestamp,
+			queryEndTimestamp,
+		});
+
+		return c.json({}, 200);
+	} catch (error) {
+		return c.json({ error: error }, 500);
+	}
+});
+
 // Setup query route
 api.post('/query', async (c) => {
 	// Setup logger
@@ -66,15 +88,6 @@ api.post('/query', async (c) => {
 
 	if (!body.hasOwnProperty('query')) {
 		return c.json({ error: 'Missing query property in request body!' }, 400);
-	}
-
-	// Check if DuckDB has been initalized
-	if (!isInitialized) {
-		// Run initalization queries
-		await initialize();
-
-		// Store initialization
-		isInitialized = true;
 	}
 
 	// Track query start timestamp
@@ -109,15 +122,6 @@ api.post('/streaming-query', async (c) => {
 
 	if (!body.hasOwnProperty('query')) {
 		return c.json({ error: 'Missing query property in request body!' }, 400);
-	}
-
-	// Check if DuckDB has been initalized
-	if (!isInitialized) {
-		// Run initalization queries
-		await initialize();
-
-		// Store initialization
-		isInitialized = true;
 	}
 
 	try {

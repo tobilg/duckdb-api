@@ -34,18 +34,15 @@ const port = PORT ? parseInt(PORT) : 3000;
 // Store initialization
 let isInitialized = false;
 
-// Instantiate Hono
-const app = new Hono();
-
-// Setup routes & middleware
-app.get('/', (c) => c.json({ message: 'Welcome to DuckDB API' }));
-app.use(prettyJSON());
-app.use(logger());
-app.use('*', requestId());
-app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404));
-
 // Setup API
 const api = new Hono<{ Bindings: Bindings }>();
+
+// Setup routes & middleware
+api.get('/', (c) => c.json({ message: 'Welcome to DuckDB API' }));
+api.use(prettyJSON());
+api.use(logger());
+api.use('*', requestId());
+api.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404));
 
 // Enable CORS
 api.use('/query', cors());

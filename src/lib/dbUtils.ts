@@ -35,7 +35,7 @@ export const initialize = async () => {
 	await query('LOAD httpfs;', false);
 	await query('INSTALL json;', false);
 	await query('LOAD json;', false);
-	await query('INSTALL arrow;', false);
+	await query('INSTALL arrow FROM community;', false);
 	await query('LOAD arrow;', false);
 
 	// Whether or not the global http metadata is used to cache HTTP metadata, see https://github.com/duckdb/duckdb/pull/5405

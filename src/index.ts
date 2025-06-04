@@ -50,6 +50,13 @@ app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404));
 // Setup API
 const api = new Hono<{ Bindings: Bindings }>();
 
+// Setup routes & middleware
+api.get('/', (c) => c.json({ message: 'Welcome to DuckDB API' }));
+api.use(prettyJSON());
+api.use(logger());
+api.use('*', requestId());
+api.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404));
+
 // Enable CORS
 api.use('/query', cors());
 api.use('/streaming-query', cors());

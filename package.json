@@ -6,7 +6,7 @@
     "build": "rm -rf dist/ && tsc",
     "build:docker": "scripts/download_extensions.sh && docker buildx build --platform linux/amd64 -t tobilg/duckdb-api .",
     "dev": "nodemon --exec tsx src/index.ts",
-    "dev:docker": "docker run --rm -it -p 8080:3000 tobilg/duckdb-api",
+    "dev:docker": "docker run --rm -it -p 3000:3000 tobilg/duckdb-api",
     "format": "npx @biomejs/biome format --write src/",
     "lint": "npx @biomejs/biome lint --write --unsafe src/",
     "test": "echo \"Error: no test specified\" && exit 1"

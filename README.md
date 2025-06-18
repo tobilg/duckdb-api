@@ -4,15 +4,17 @@ Running [DuckDB](https://duckdb.org/) behind a [Hono.js](https://hono.dev/) API 
 ## Building the Docker image
 
 ```bash
-docker build -t duckdb-api .
+npm run build:docker
 ```
 
 ## Usage
 To build and run the Docker container, use the following commands:
 
 ```bash
-docker run -p 3000:3000 tobilg/duckdb-api:1.3.1
+npm run dev:docker
 ```
+
+This will expose the DuckDB API on port `3000`.
 
 ### Environment Variables
 You can set the port:

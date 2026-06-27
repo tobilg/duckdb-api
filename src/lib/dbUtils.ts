@@ -1,29 +1,31 @@
-import DuckDB from 'duckdb';
+import { DuckDBInstance, type Json } from '@duckdb/node-api';
 import { filterQuery } from './queryFilter';
 
 const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, R2_TOKEN, R2_ENDPOINT, R2_CATALOG } = process.env;
 
-// Instantiate DuckDB
-const duckDB = new DuckDB.Database(':memory:', {
+export type QueryResult = Record<string, Json>[];
+export type StreamingQueryResult = AsyncIterable<Record<string, Json>[]>;
+
+const instancePromise = DuckDBInstance.create(':memory:', {
   allow_unsigned_extensions: 'true',
 });
 
-// Create connection
-const connection = duckDB.connect();
+const connectionPromise = instancePromise.then((instance) => instance.connect());
 
-// Promisify query method
-export const query = (query: string, filteringEnabled = true): Promise<DuckDB.TableData> => {
-  return new Promise((resolve, reject) => {
-    connection.all(filterQuery(query, filteringEnabled), (err, res) => {
-      if (err) reject(err);
-      resolve(res);
-    });
-  });
+export const query = async (query: string, filteringEnabled = true): Promise<QueryResult> => {
+  const connection = await connectionPromise;
+  const reader = await connection.runAndReadAll(filterQuery(query, filteringEnabled));
+  return reader.getRowObjectsJson();
 };
 
-export const streamingQuery = (query: string, filteringEnabled = true): Promise<DuckDB.IpcResultStreamIterator> => {
-  return connection.arrowIPCStream(filterQuery(query, filteringEnabled));
-};
+export async function* streamingQuery(query: string, filteringEnabled = true): StreamingQueryResult {
+  const connection = await connectionPromise;
+  const result = await connection.stream(filterQuery(query, filteringEnabled));
+
+  for await (const rows of result.yieldRowObjectJson()) {
+    yield rows;
+  }
+}
 
 export const initialize = async () => {
   // Load home directory

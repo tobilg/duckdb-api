@@ -137,8 +137,8 @@ api.post('/streaming-query', async (c) => {
   }
 
   try {
-    // Set content type to Arrow IPC stream
-    c.header('Content-Type', 'application/vnd.apache.arrow.stream');
+    // Stream newline-delimited JSON rows.
+    c.header('Content-Type', 'application/x-ndjson');
 
     // Set HTTP status code
     c.status(200);
@@ -150,13 +150,12 @@ api.post('/streaming-query', async (c) => {
         requestLogger.error('Aborted!');
       });
 
-      // Get Arrow IPC stream
-      const arrowStream = await streamingQuery(body.query, true);
+      const rowBatches = streamingQuery(body.query, true);
 
-      // Stream Arrow IPC stream to response
-      for await (const chunk of arrowStream) {
-        // Write chunk
-        await stream.write(chunk);
+      for await (const rows of rowBatches) {
+        for (const row of rows) {
+          await stream.write(`${JSON.stringify(row)}\n`);
+        }
       }
     });
   } catch (error) {

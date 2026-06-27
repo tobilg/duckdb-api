@@ -1,4 +1,4 @@
-FROM node:20-bookworm-slim AS builder
+FROM node:24-bookworm-slim AS builder
 
 WORKDIR /app
  
@@ -13,7 +13,7 @@ COPY src/ src/
 RUN npm run build && \
     npm prune --production
 
-FROM node:20-bookworm-slim
+FROM node:24-bookworm-slim
 
 ARG PORT=3000
 

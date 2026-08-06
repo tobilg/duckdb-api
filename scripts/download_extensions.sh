@@ -3,7 +3,7 @@
 rm -rf $PWD/extensions
 mkdir -p $PWD/extensions
 
-DUCKDB_VERSION=v1.5.4
+DUCKDB_VERSION=v1.5.5
 
 # Download extensions
 curl https://extensions.duckdb.org/$DUCKDB_VERSION/linux_amd64/httpfs.duckdb_extension.gz --output $PWD/extensions/httpfs.duckdb_extension.gz
